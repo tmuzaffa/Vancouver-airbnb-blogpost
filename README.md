@@ -1,6 +1,5 @@
 # Vancouver-airbnb-blogpost
-![png](0.png)
-
+![png](output_20_0.png)
 ###  A review of the Vancouver's air bnb data-UDacity-CrispDM Project
 
 #### BUSINESS UNDERSTANDING
