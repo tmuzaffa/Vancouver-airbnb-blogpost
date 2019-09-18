@@ -173,11 +173,6 @@ First we try to clean the data and deal with the missing values, For bathrooms c
 Botique hotels are the least occupied property in metro vancouver
 
 
-``
-
-
-
-
 ![png](output_80_1.png)
 
 
@@ -211,4 +206,32 @@ Listings which can host from families upto a small group are high in demand
 
 
 Properties that donot require guests profile photo for booking  has low availability and are more popular
+
+
+## Summary Of Conclusions<a name="results"></a>
+
+Key findings from the analysis are summarized below:
+
+1. It was found that approximately 70% of the hosts in metro vancouver respond with in an hour. 
+2. Approximately 35% of the properties listed on Vancouver Air bnb are houses and 26% are apartments.
+3. Listing price is higher for the number of reviews between 200-300, as the number of reviews increases, price drops, which suggests that more customer tend to review places which are economical, however places with 200-300 tend to have higher listing price. 
+
+4. Downtown, Kistilano are the most expensive neighbourhoods, whereas Killarnay is the cheapest.
+5. We didnt see any storng relationship with the occupancy rate and the review scores.
+6. We also found that Kistilano and Downtown east neighbourhoods receivee the most positive reviews. 
+7. We also found that there is a storng relationship between property type, room type, number of guests with the occupancy rate.
+
+
+## Acknowledgements<a name="acknowledgements"></a>
+
+- Credit to the AirBnB dataset published by AirBnB and Kaggle for hosting it, the dataset here: https://www.kaggle.com/airbnb/
+- Remove the plot border: https://stackoverflow.com/questions/925024/how-can-i-remove-the-top-and-right-axis-in-matplotlib
+- Annotations:  https://robertmitchellv.com/blog-bar-chart-annotations-pandas-mpl.html
+- Gradient Color: https://www.pythonprogramming.in/bar-chart-with-different-color-of-bars.html
+- Remove the $ symbol: https://stackoverflow.com/questions/22588316/pandas-applying-regex-to-replace-values
+- Subplots: https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.subplots.html
+- SentimentIntensityAnalyzer:https://stackoverflow.com/questions/39462021/nltk-sentiment-vader-polarity-scorestext-not-working
+- Dropping multiple columns: https://stackoverflow.com/questions/28538536/deleting-multiple-columns-based-on-column-names-in-pandas                                  -  https://stackoverflow.com/questions/17838752/how-to-delete-multiple-columns-in-one-pass
+- Dtype:  https://stackoverflow.com/questions/21271581/selecting-pandas-columns-by-dtype
+- Replacing True, False: https://stackoverflow.com/questions/23307301/replacing-column-values-in-a-pandas-dataframe
 
