@@ -46,18 +46,10 @@ Below analysis show that the vancouver hosts respond very efficiently
 ![png](output_20_0.png)
 
 
-It can be seen that approximately 70% of the hosts in metro vancouver respond with in an hour
-
-
-
-
-
+It can be seen that approximately 70% of the hosts in metro vancouver respond with in an hour. There are various types of properties available in Vancouver in the Air bnb platform. Below is the breakdown
 
 
 ![png](output_24_0.png)
-
-
-##### Results
 
 Approximately 35% of the properties listed on Vancouver Air bnb are houses and 26% are apartments
 
@@ -67,55 +59,17 @@ Approximately 35% of the properties listed on Vancouver Air bnb are houses and 2
 3. Getting an insight into the relationship between the listed pricing and the property type in metro vancovuer
 
 
-```python
-dfc['year'] = pd.DatetimeIndex(dfc['date']).year
-dfc['month'] = pd.DatetimeIndex(dfc['date']).month
-```
-
-We will remove the $ symbol 
-
-ref:https://stackoverflow.com/questions/22588316/pandas-applying-regex-to-replace-values
-
-
-```python
-
-dfc['price'] = dfc['price'].replace('[\$,]', '', regex=True).astype(float)
-m2=dfc.groupby(['year','month'])[['price']].mean()
-ax3=m2.plot(kind="barh", figsize = (8,7), fontsize = 13, color = ['b', 'r', 'g', 'y']);
-plt.title("Average price per motnth");
-
-ax3.invert_yaxis()
-ax3.legend().set_visible(False)
-ax3.spines['right'].set_visible(False)
-ax3.spines['bottom'].set_visible(False)
-ax3.spines['left'].set_visible(False)
-ax3.spines['top'].set_visible(False)
-```
 
 
 ![png](output_29_0.png)
 
+July-September seems to be the peak season in Vancouver
 
 
-```python
-dfl['price'] = dfl['price'].replace('[\$,]', '', regex=True).astype(float)
-m2=dfl.groupby(['number_of_reviews'])[['price']].mean()
-ax3=m2.plot( figsize = (8,7), fontsize = 13, label = 'price in $');
-plt.title("Average price correlation with number of reviews");
-
-#ax3.invert_yaxis()
-ax3.legend(loc='upper left')
-ax3.spines['right'].set_visible(False)
-ax3.spines['bottom'].set_visible(False)
-ax3.spines['left'].set_visible(False)
-ax3.spines['top'].set_visible(False)
-```
 
 
 ![png](output_30_0.png)
 
-
-##### Results
 
 As we can see that listing price is higher for the number of reviews between 200-300, as the number of reviews increase we can see that price drops, which suggests that more customer tend to review places which are economical, however places with 200-300 tend to have higher listing price. 
 
@@ -124,37 +78,6 @@ Now we look at the neighbourhood and their pricings
 
 
 
-```python
-# sorting by price
-print(dfl.groupby(['neighbourhood_cleansed'])[['price']].mean().sort_values(by='price',ascending=False))
-dfl.groupby(['neighbourhood_cleansed'])[['price']].mean().plot(figsize = (8,7), fontsize = 12, color = 'red');
-```
-
-                                   price
-    neighbourhood_cleansed              
-    Downtown                  244.745082
-    West Point Grey           244.324324
-    Shaughnessy               228.576923
-    West End                  227.586364
-    Kerrisdale                216.092784
-    Kitsilano                 200.404082
-    Downtown Eastside         194.371257
-    Dunbar Southlands         194.176190
-    Arbutus Ridge             192.009709
-    South Cambie              168.306818
-    Fairview                  167.428571
-    Mount Pleasant            165.088496
-    Marpole                   161.474308
-    Sunset                    158.623077
-    Riley Park                152.131195
-    Kensington-Cedar Cottage  146.948925
-    Grandview-Woodland        145.027586
-    Oakridge                  143.853333
-    Strathcona                140.583333
-    Victoria-Fraserview       124.764045
-    Hastings-Sunrise          123.729242
-    Renfrew-Collingwood       122.448413
-    Killarney                 121.131868
     
 
 
@@ -162,159 +85,33 @@ dfl.groupby(['neighbourhood_cleansed'])[['price']].mean().plot(figsize = (8,7), 
 
 
 
-```python
-#Top prices 
-mean = dfl['price'].mean()
-top=dfl.groupby(['neighbourhood_cleansed'])[['price']].mean().sort_values(by = 'price', ascending = False).head();
-top.plot(kind = 'bar', figsize = (8,7), fontsize = 13, color = color_map(dfl['price']))
-plt.title("Top priced neighbourhoods in Metro Vancouver");
-```
 
 
 ![png](output_33_0.png)
 
 
 
-```python
-# Now we can also look at the cheapest neighbourhoods in vancouver
-mean = dfl['price'].mean()
-bot=dfl.groupby(['neighbourhood_cleansed'])[['price']].mean().sort_values(by = 'price', ascending = False).tail();
-bot.plot(kind = 'bar', figsize = (8,7), fontsize = 13, color = color_map(dfl['price']))
-plt.title("Lowest priced neighbourhoods in Metro Vancouver");
-```
+
 
 
 ![png](output_34_0.png)
 
 
 
-```python
 
-```
 
-##### Resutls
 It can be seen from the charts above that the highest average price listed per night is $250 and cheapest is $120 per night in metro Vancouver.
 
 
-```python
-# Explore property types within neighborhoods and how they impact price
-# Look at the top neighbourhoods and top property types
 
-neigh = ('Downtown','Westpoint Grey','Shaughnessy','West End','Kerrisdale')
-prop = ('Apartment','House')
-dfl1 = dfl.loc[dfl['neighbourhood_cleansed'].isin(neigh)]
-dfl2 = dfl1.loc[dfl['property_type'].isin(prop)]
-
-dfnp = dfl2.groupby(['neighbourhood_cleansed','property_type'])[['price']].mean().reset_index()
-dfnp
-```
-
-
-
-
-<div>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>neighbourhood_cleansed</th>
-      <th>property_type</th>
-      <th>price</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Downtown</td>
-      <td>Apartment</td>
-      <td>250.253571</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Downtown</td>
-      <td>House</td>
-      <td>416.000000</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Kerrisdale</td>
-      <td>Apartment</td>
-      <td>203.363636</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>Kerrisdale</td>
-      <td>House</td>
-      <td>274.840000</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>Shaughnessy</td>
-      <td>Apartment</td>
-      <td>167.000000</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>Shaughnessy</td>
-      <td>House</td>
-      <td>296.540000</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>West End</td>
-      <td>Apartment</td>
-      <td>183.669065</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>West End</td>
-      <td>House</td>
-      <td>250.947368</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
-
-
-```python
-
-```
-
-
-```python
-price_arr = dfnp['price'].values
-price_arr = np.reshape(price_arr, (4,2))
-price_arr.shape
-```
-
-
-
-
-    (4, 2)
-
-
-
-
-```python
-
-idx = ['Downtown','Westpoint Grey','Shaughnessy','West End']
-cols = ['Apartment', 'House']
-df = pd.DataFrame(price_arr, index=idx, columns=cols)
-
-# _r reverses the normal order of the color map 'RdYlGn'
-sns.heatmap(df, cmap='spring_r', linewidths=0.5, annot=True);
-```
 
 
 ![png](output_40_0.png)
 
 
-##### Results
+
 It can be seen from the heatmap above that Houses in downtown Vancouver area have higher listing price than apartments. 
 
-ref: https://matplotlib.org/3.1.0/tutorials/colors/colormaps.html
 
 ### Question 02 - Review correlation
 
@@ -323,94 +120,6 @@ ref: https://matplotlib.org/3.1.0/tutorials/colors/colormaps.html
 - Can we explore some of the worst reviews for additional insights?
 
 let us look at the data in the review and listing table and also calcualte the occupancy rate from the listing can calendar table
-
-
-```python
-# we will now find the occupancy rate
-dfo = pd.DataFrame(pd.pivot_table(dfc.groupby(['listing_id', 'available']).count()['date'].reset_index(),index=["listing_id"], columns='available', values='date').reset_index(), columns=['listing_id', 'f', 't']).fillna(0)
-# Rename the column
-dfo.columns = ['listing_id', 'occupied', 'available']
-
-# finding the occupancy rate which is percentage
-dfo['percentage'] = dfo['occupied'] / (dfo['available'] + dfo['occupied'])
-
-
-# Now remove the unnecessary columns
-dfo.drop(['available', 'occupied'], axis=1, inplace=True)
-dfo.head()
-```
-
-
-
-
-<div>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>listing_id</th>
-      <th>percentage</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>10080</td>
-      <td>0.136986</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>13188</td>
-      <td>0.284932</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>13357</td>
-      <td>0.142466</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>13490</td>
-      <td>0.172603</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>14267</td>
-      <td>1.000000</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
-
-Now that we have found the occupancy rate, we can see the correlation of the review scores with the occupancy rate. For that first we merge the listings data and the calendar data. 
-
-
-
-```python
-
-data = dfl.merge(dfo, left_on='id', right_on='listing_id', how='inner')
-```
-
-Now we drop all the columns with 1 value
-
-Review Score rating vs  Occupancy rate
-
-
-```python
-plt.scatter(data['review_scores_rating'], data['percentage'], color = 'green', marker = 'D')
-plt.title('Review score rating and occupancy rate correlation')
-plt.xlabel('Review score rating')
-plt.ylabel('Occupancy rate')
-```
-
-
-
-
-    Text(0,0.5,'Occupancy rate')
-
-
 
 
 ![png](output_48_1.png)
@@ -462,264 +171,6 @@ axs[6].set_ylabel('occupancy rate')
 ##### Results
 Review rates are higher for properties with high occupancy rate. This could be either bad review or good review
 
-ref: https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.subplots.html
-
-
-```python
-dfcom = dfr[['listing_id', 'comments']].copy()
-dfcom.head()
-```
-
-
-
-
-<div>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>listing_id</th>
-      <th>comments</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>10080</td>
-      <td>this accommodation was excellent. beautiful sp...</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>10080</td>
-      <td>The host canceled my reservation 13 days befor...</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>10080</td>
-      <td>This apartment is fantastic, just what I and m...</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>10080</td>
-      <td>Very nice apartment and great view. Close to S...</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>10080</td>
-      <td>Both Rami and Mauricio made our family of 5 fe...</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
-
-
-```python
-data2 = dfcom.merge(dfl, left_on='listing_id', right_on='id', how='inner')
-
-```
-
-Now we do the sentiment analysis, using the sentimentintensityanalyzer from NLTK library
-
-
-```python
-import nltk
-from nltk.sentiment.vader import SentimentIntensityAnalyzer
-anlzer = SentimentIntensityAnalyzer()
-
-def sentiment_analyzer_scores(comm):
-    '''
-    Function runs sentiment analyzer on the provided comments and returns the total polarity score
-    INPUT:
-    comm - the text of the review comments 
-    OUTPUT:
-    result['compound'] - The combinition of positive, negative, and neutral score for a particular sentence for sentiment analysis. 
-   
-    '''
-    comm = str(comm)
-    result = anlzer.polarity_scores(comm)
-    return result['compound']
-
-data2['polarity_score'] = data2['comments'].apply(sentiment_analyzer_scores)
-data2.head()
-
-```
-
-
-
-
-<div>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>listing_id</th>
-      <th>comments</th>
-      <th>id</th>
-      <th>listing_url</th>
-      <th>scrape_id</th>
-      <th>last_scraped</th>
-      <th>name</th>
-      <th>summary</th>
-      <th>space</th>
-      <th>description</th>
-      <th>...</th>
-      <th>is_business_travel_ready</th>
-      <th>cancellation_policy</th>
-      <th>require_guest_profile_picture</th>
-      <th>require_guest_phone_verification</th>
-      <th>calculated_host_listings_count</th>
-      <th>calculated_host_listings_count_entire_homes</th>
-      <th>calculated_host_listings_count_private_rooms</th>
-      <th>calculated_host_listings_count_shared_rooms</th>
-      <th>reviews_per_month</th>
-      <th>polarity_score</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>10080</td>
-      <td>this accommodation was excellent. beautiful sp...</td>
-      <td>10080</td>
-      <td>https://www.airbnb.com/rooms/10080</td>
-      <td>20190710134459</td>
-      <td>2019-07-10</td>
-      <td>D1 -  Million Dollar View 2 BR</td>
-      <td>Stunning two bedroom, two bathroom apartment. ...</td>
-      <td>Bed setup: 2 x queen, option to add up to 2 tw...</td>
-      <td>Stunning two bedroom, two bathroom apartment. ...</td>
-      <td>...</td>
-      <td>f</td>
-      <td>strict_14_with_grace_period</td>
-      <td>f</td>
-      <td>f</td>
-      <td>36</td>
-      <td>36</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0.17</td>
-      <td>0.9824</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>10080</td>
-      <td>The host canceled my reservation 13 days befor...</td>
-      <td>10080</td>
-      <td>https://www.airbnb.com/rooms/10080</td>
-      <td>20190710134459</td>
-      <td>2019-07-10</td>
-      <td>D1 -  Million Dollar View 2 BR</td>
-      <td>Stunning two bedroom, two bathroom apartment. ...</td>
-      <td>Bed setup: 2 x queen, option to add up to 2 tw...</td>
-      <td>Stunning two bedroom, two bathroom apartment. ...</td>
-      <td>...</td>
-      <td>f</td>
-      <td>strict_14_with_grace_period</td>
-      <td>f</td>
-      <td>f</td>
-      <td>36</td>
-      <td>36</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0.17</td>
-      <td>0.0000</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>10080</td>
-      <td>This apartment is fantastic, just what I and m...</td>
-      <td>10080</td>
-      <td>https://www.airbnb.com/rooms/10080</td>
-      <td>20190710134459</td>
-      <td>2019-07-10</td>
-      <td>D1 -  Million Dollar View 2 BR</td>
-      <td>Stunning two bedroom, two bathroom apartment. ...</td>
-      <td>Bed setup: 2 x queen, option to add up to 2 tw...</td>
-      <td>Stunning two bedroom, two bathroom apartment. ...</td>
-      <td>...</td>
-      <td>f</td>
-      <td>strict_14_with_grace_period</td>
-      <td>f</td>
-      <td>f</td>
-      <td>36</td>
-      <td>36</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0.17</td>
-      <td>0.9595</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>10080</td>
-      <td>Very nice apartment and great view. Close to S...</td>
-      <td>10080</td>
-      <td>https://www.airbnb.com/rooms/10080</td>
-      <td>20190710134459</td>
-      <td>2019-07-10</td>
-      <td>D1 -  Million Dollar View 2 BR</td>
-      <td>Stunning two bedroom, two bathroom apartment. ...</td>
-      <td>Bed setup: 2 x queen, option to add up to 2 tw...</td>
-      <td>Stunning two bedroom, two bathroom apartment. ...</td>
-      <td>...</td>
-      <td>f</td>
-      <td>strict_14_with_grace_period</td>
-      <td>f</td>
-      <td>f</td>
-      <td>36</td>
-      <td>36</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0.17</td>
-      <td>0.6997</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>10080</td>
-      <td>Both Rami and Mauricio made our family of 5 fe...</td>
-      <td>10080</td>
-      <td>https://www.airbnb.com/rooms/10080</td>
-      <td>20190710134459</td>
-      <td>2019-07-10</td>
-      <td>D1 -  Million Dollar View 2 BR</td>
-      <td>Stunning two bedroom, two bathroom apartment. ...</td>
-      <td>Bed setup: 2 x queen, option to add up to 2 tw...</td>
-      <td>Stunning two bedroom, two bathroom apartment. ...</td>
-      <td>...</td>
-      <td>f</td>
-      <td>strict_14_with_grace_period</td>
-      <td>f</td>
-      <td>f</td>
-      <td>36</td>
-      <td>36</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0.17</td>
-      <td>0.9694</td>
-    </tr>
-  </tbody>
-</table>
-<p>5 rows × 109 columns</p>
-</div>
-
-
-
-ref:https://stackoverflow.com/questions/39462021/nltk-sentiment-vader-polarity-scorestext-not-working
-
-
-```python
-neigh_polarity = data2.groupby('neighbourhood_cleansed')[['polarity_score']].mean().sort_values(by='polarity_score',ascending=False)
-```
-
-
-```python
-top2 = data2.groupby('neighbourhood_cleansed')[['polarity_score']].mean().sort_values(by='polarity_score',ascending=False).head()
-bot2 = data2.groupby('neighbourhood_cleansed')[['polarity_score']].mean().sort_values(by='polarity_score',ascending=False).tail()
-
-top2.plot(kind = 'bar', figsize = (8,7), fontsize = 13, color = color_map(data2['polarity_score']))
-plt.title("Top reviewed neighbourhoods in Metro Vancouver");
-```
 
 
 ![png](output_57_0.png)
@@ -727,11 +178,6 @@ plt.title("Top reviewed neighbourhoods in Metro Vancouver");
 
 
 
-
-```python
-bot2.plot(kind = 'bar', figsize = (8,7), fontsize = 13, color = color_map(data2['polarity_score']))
-plt.title("Least reviewed neighbourhoods in Metro Vancouver");
-```
 
 
 ![png](output_59_0.png)
