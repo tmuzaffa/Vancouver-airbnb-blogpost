@@ -40,45 +40,15 @@ Questions to be answered for data review
 2. What are the features of each column?
 
 
-
-```python
-host_response_vals = dfl['host_response_time'].value_counts()
-ax=(host_response_vals/dfl.shape[0]).plot(kind="barh", color = ['b', 'r', 'g', 'y'], figsize = (8,7), fontsize = 13);
-plt.title("Host Response Times");
-totals=[]
-for i in ax.patches:
-    totals.append(i.get_width())
-
-total = sum(totals)
-
-# set individual bar lables using above list
-for i in ax.patches:
-    # get_width pulls left or right; get_y pushes up or down
-    ax.text(i.get_width()+0.0005, i.get_y()+.25, \
-            str(round((i.get_width()/total), 1)), fontsize=12,
-color='black')
-
-ax.invert_yaxis()
-ax.set_xticks([])
-ax.spines['right'].set_visible(False)
-ax.spines['bottom'].set_visible(False)
-ax.spines['left'].set_visible(False)
-ax.spines['top'].set_visible(False)
-
-# ref: https://stackoverflow.com/questions/925024/how-can-i-remove-the-top-and-right-axis-in-matplotlib
-```
+Below analysis show that the vancouver hosts respond very efficiently
 
 
 ![png](output_20_0.png)
 
 
-##### Note
-We have used Edward Tufte principle and have tried to remove as much chart junk as possible, this simple plot gives the necessary infomration needed for the analysis of the response time.
-
-##### Results
 It can be seen that approximately 70% of the hosts in metro vancouver respond with in an hour
 
-ref: https://stackoverflow.com/questions/925024/how-can-i-remove-the-top-and-right-axis-in-matplotlib
+
 
 
 ```python
